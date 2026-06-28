@@ -1,5 +1,7 @@
 # Jewelry Receipt Ops Lab
 
+![CI](https://github.com/glbjewelry/jewelry-receipt-ops-lab-by-GLB/actions/workflows/ci.yml/badge.svg)
+
 A DevOps/backend lab that simulates a jewelry workshop workflow where physical numbered receipts are registered in 1C and synchronized into an operational tracking platform.
 
 ## Business Context
