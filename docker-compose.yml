@@ -21,6 +21,21 @@ services:
     ports:
       - "8002:8000"
     restart: unless-stopped
+
+  worker:
+    build:
+      context: ./worker
+    image: jewelry-receipt-worker:1.0
+    container_name: jewelry-receipt-worker
+    environment:
+      ONE_C_EXPORT_PATH: /data/receipts.csv
+      SYNC_INTERVAL_SECONDS: "10"
+    volumes:
+      - ./one-c-mock/receipts.csv:/data/receipts.csv:ro
+    depends_on:
+      - api
+    restart: unless-stopped
+
   prometheus:
     image: prom/prometheus:latest
     container_name: jewelry-receipt-prometheus
