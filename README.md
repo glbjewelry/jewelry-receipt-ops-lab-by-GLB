@@ -5,7 +5,7 @@
 A DevOps/backend lab that simulates a jewelry workshop workflow where physical numbered receipts are registered in 1C and synchronized into an operational tracking platform.
 
 ## Business Context
-
+Jewelry Receipt Ops Lab is a DevOps/backend portfolio project that simulates a jewelry workshop workflow where physical numbered receipts are registered in 1C and exported as mock CSV data. The stack includes a Python API, background sync worker, Nginx reverse proxy, Prometheus metrics, Grafana dashboard, Telegram alerting, Docker Compose, and GitHub Actions CI.
 In the real workshop process, scrap metal intake and custom jewelry manufacturing orders are registered using physical numbered receipts. These receipts are then recorded in 1C.
 
 This project does not connect to a real 1C instance. Instead, it simulates 1C integration using CSV/JSON mock exports so that no production data, credentials, or private business records are stored in GitHub.
