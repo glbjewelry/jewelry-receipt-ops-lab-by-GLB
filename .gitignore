@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.log
+data/
+backups/
+postgres-data/
+redis-data/
+grafana-data/
+prometheus-data/
+config/
+*.db
