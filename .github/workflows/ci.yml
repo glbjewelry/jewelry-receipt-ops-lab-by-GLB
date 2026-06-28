@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v7
+
+      - name: Check Python syntax
+        run: |
+          python3 -m py_compile app/main.py
+          python3 -m py_compile worker/worker.py
+          python3 -m py_compile tests/test_api.py
+
+      - name: Build API Docker image
+        run: docker build -t jewelry-receipt-api:test ./app
+
+      - name: Build worker Docker image
+        run: docker build -t jewelry-receipt-worker:test ./worker
+
+      - name: Start stack
+        run: docker compose up -d --build
+
+      - name: Wait for API
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:8097/health; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker compose logs
+          exit 1
+
+      - name: Check metrics
+        run: |
+          curl -fsS http://localhost:8097/metrics | grep jewelry_receipts_total
+          curl -fsS http://localhost:8097/metrics | grep jewelry_receipts_ready
+
+      - name: Run smoke tests
+        run: bash scripts/smoke-test.sh
+
+      - name: Show containers
+        if: always()
+        run: docker compose ps
+
+      - name: Stop stack
+        if: always()
+        run: docker compose down
